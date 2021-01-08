@@ -37,31 +37,55 @@ http
       }
     } else if (request.method === "POST") {
       let data = "";
+      let j;
       console.log("entre al puto codigo");
       //Cuando se estén recibiendo datos
       request.on("data", (chunk) => {
-        data += chunk;
+          
+          data += chunk;
+
       });
 
-      //Cuando se terminen de procesar los datos
+      // Cuando se terminen de procesar los datos
       request.on("end", () => {
-        var re = /&/g;
-        let datos = data.toString().replace(re, " ");
-        datos = datos + "\n";
+       let datos = data.toString();
+       let usuario=
+            {
+            Nombre: datos.split("&")[0].split("=")[1],
+            Apellidos: datos.split("&")[1].split("=")[1],
+            email: datos.split("&")[2].split("=")[1],
+            password: datos.split("&")[3].split("=")[1],
+            }
 
-        console.log(data.toString());
-        console.log(datos);
-        console.log("Fin del stream");
+      let repair=usuario.Nombre.replace('+',' ');
+      usuario.Nombre=repair;
+
+      repair=usuario.Apellidos.replace('+',' ');
+      usuario.Apellidos=repair;
+
+      repair=usuario.email.replace('%','@');
+      usuario.email=repair;
+
+
+        
+
         //fs.writeFile
         //1° argumento -> la ruta del archivo en el que queremos escribir
         //Se creará el archivo si no existe en la ruta especificada
         //2° argumento -> El contenido que queremos escribir
         //3° argumento -> función de callback que nos "notificará" en caso de que haya
         // un error al escribir en el archivo
-        fs.appendFile("usuarios.txt", datos, (error) => {
+        fs.appendFile("usuarios.txt",JSON.stringify(usuario), (error) => {
           if (error) {
             console.log(error);
           }
+          
+        });
+        fs.appendFile("usuarios.txt",",\n", (error) => {
+          if (error) {
+            console.log(error);
+          }
+          
         });
       });
 
@@ -70,7 +94,7 @@ http
       });
     }
   })
-  .listen(8000);
+  .listen(8080);
 
 const readFile = (url, response) => {
   let urlF = __dirname + url;
