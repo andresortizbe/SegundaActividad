@@ -65,16 +65,6 @@ http
 
       repair=usuario.email.replace('%','@');
       usuario.email=repair;
-
-
-        
-
-        //fs.writeFile
-        //1° argumento -> la ruta del archivo en el que queremos escribir
-        //Se creará el archivo si no existe en la ruta especificada
-        //2° argumento -> El contenido que queremos escribir
-        //3° argumento -> función de callback que nos "notificará" en caso de que haya
-        // un error al escribir en el archivo
         fs.appendFile("usuarios.txt",JSON.stringify(usuario), (error) => {
           if (error) {
             console.log(error);
@@ -101,9 +91,6 @@ const readFile = (url, response) => {
   console.log(__dirname, url);
   fs.readFile(urlF, (error, content) => {
     if (!error) {
-      //mime.getType(urlF) -> nos regresaría el mime type dependiendo de la ruta
-      //styles.css -> text/css
-      //contact.html -> text/html
       response.setHeader("Content-Type", mime.getType(urlF));
       response.end(content);
     } else {
