@@ -65,18 +65,17 @@ http
 
       repair=usuario.email.replace('%','@');
       usuario.email=repair;
-        fs.appendFile("usuarios.txt",JSON.stringify(usuario), (error) => {
+
+      let userStr="Nombres: "+usuario.Nombre+"\n"+"Apellidos: "+usuario.Apellidos+"\n"+"Email: "+usuario.email+"\n"+"Password: "+usuario.password+"\n";
+      console.log(userStr);
+
+        fs.appendFile("usuarios.txt",userStr, (error) => {
           if (error) {
             console.log(error);
           }
           
         });
-        fs.appendFile("usuarios.txt",",\n", (error) => {
-          if (error) {
-            console.log(error);
-          }
-          
-        });
+        response.end(); 
       });
 
       request.on("error", (error) => {
