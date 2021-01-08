@@ -38,7 +38,7 @@ http
     } else if (request.method === "POST") {
       let data = "";
       let j;
-      console.log("entre al puto codigo");
+      
       //Cuando se estén recibiendo datos
       request.on("data", (chunk) => {
           
